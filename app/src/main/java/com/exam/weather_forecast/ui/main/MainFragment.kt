@@ -1,23 +1,30 @@
 package com.exam.weather_forecast.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageButton
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.exam.weather_forecast.R
+import com.exam.weather_forecast.data.domain.Result
 import com.exam.weather_forecast.data.dummy.SampleData
 import com.exam.weather_forecast.data.tempColor
+import com.exam.weather_forecast.ui.WeatherFavoriteOnPressListener
 import com.exam.weather_forecast.weatherListItem
+import com.google.android.material.snackbar.Snackbar
+import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by inject()
+
+    interface WeatherListItemOnPressListener {
+        fun onPress(view: View)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -26,35 +33,51 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         val recyclerView = requireView().findViewById<EpoxyRecyclerView>(R.id.recyclerView)
-        val sampleData = SampleData.weathers
-        recyclerView.withModels {
-            sampleData.forEachIndexed{ position, weather ->
-                weatherListItem {
-                    id(position)
-                    weather(weather)
-                    color(weather.temp.tempColor(requireContext()))
-                    itemOnPress(object: WeatherListItemOnPressListener{
-                        override fun onPress(view: View) {
-                            findNavController().navigate(MainFragmentDirections.actionNavHomeToNavDetails(1))
-                        }
-                    })
-                    favoriteOnPress(object : WeatherFavoriteOnPressListener {
-                        override fun onPress(view: View) {
-                            Log.i("favorite", "onPress: ")
-                        }
-                    })
-                }
+        val swiper = requireView().findViewById<SwipeRefreshLayout>(R.id.swipe)
+
+        swiper.apply{
+            setOnRefreshListener {
+                viewModel.updateLocalWeathers(SampleData.cityIds)
             }
         }
-    }
 
-    interface WeatherListItemOnPressListener {
-        fun onPress(view: View)
-    }
+        viewModel.getWeathers().observe(viewLifecycleOwner, {
+            recyclerView.withModels {
+                it.forEachIndexed{ position, weather ->
+                    weatherListItem {
+                        id(position)
+                        weather(weather)
+                        color(weather.temp.tempColor(requireContext()))
+                        itemOnPress(object: WeatherListItemOnPressListener{
+                            override fun onPress(view: View) {
+                                findNavController().navigate(MainFragmentDirections.actionNavHomeToNavDetails(weather.id))
+                            }
+                        })
+                        favoriteOnPress(object : WeatherFavoriteOnPressListener {
+                            override fun onPress(view: View) {
+                                Log.i("details", "onPress: ")
+                                viewModel.setFavorite(weather.id, !weather.favorite)
+                            }
+                        })
+                    }
+                }
+            }
+        })
 
-    interface WeatherFavoriteOnPressListener {
-        fun onPress(view: View)
+        viewModel.failOrSuccess.observe(viewLifecycleOwner, {
+            when (it) {
+                is Result.Error -> {
+                    Snackbar.make(requireView(), "${it.exception.message}", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                else -> {
+                }
+            }
+        })
+
+        viewModel.isRefreshing.observe(viewLifecycleOwner, {
+            swiper.isRefreshing = it
+        })
     }
 }

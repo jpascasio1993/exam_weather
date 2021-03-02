@@ -32,4 +32,9 @@ object SampleData {
             false
         )
     )
+    val cityIds = listOf(
+        1701668,
+        3067696,
+        1835848
+    )
 }

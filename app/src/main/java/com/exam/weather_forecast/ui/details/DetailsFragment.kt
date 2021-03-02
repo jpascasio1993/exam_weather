@@ -5,19 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.exam.weather_forecast.R
-import com.exam.weather_forecast.data.dummy.SampleData
 import com.exam.weather_forecast.databinding.DetailsFragmentBinding
-import com.exam.weather_forecast.ui.main.MainFragmentDirections
+import com.exam.weather_forecast.ui.WeatherFavoriteOnPressListener
+import org.koin.android.ext.android.inject
 
 class DetailsFragment: Fragment() {
 
     val args: DetailsFragmentArgs by navArgs()
+
+    val viewModel:DetailsViewModel by inject()
+
     private lateinit var binding: DetailsFragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,8 +29,16 @@ class DetailsFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.i("details", "onActivityCreated: ${args.id}")
-        binding.weather = SampleData.weathers[0]
+        // TODO: fix view on horizontal
+        viewModel.getWeather(args.id).observe(viewLifecycleOwner, {
+            binding.weather = it
+            binding.favoriteOnPress = object : WeatherFavoriteOnPressListener {
+                override fun onPress(view: View) {
+                    viewModel.setFavorite(it.id, !it.favorite)
+                }
+            }
+        })
+
     }
 
 }

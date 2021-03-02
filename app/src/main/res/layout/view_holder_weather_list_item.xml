@@ -18,7 +18,7 @@
 
         <variable
             name="favoriteOnPress"
-            type="com.exam.weather_forecast.ui.main.MainFragment.WeatherFavoriteOnPressListener" />
+            type="com.exam.weather_forecast.ui.WeatherFavoriteOnPressListener" />
 
     </data>
 
@@ -41,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="WEATHER_TEMP"
-            android:text="@{weather.temp+``}"/>
+            android:text="@{String.format(`%.1f`,weather.temp)+`\u2103`}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/weather_city"

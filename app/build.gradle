@@ -19,14 +19,19 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField 'String', 'WEATHER_BASE_URL', '"https://api.openweathermap.org"'
+            buildConfigField 'String', 'WEATHER_API_KEY', '"351ab5c2ef3ce4269f321d39214aa5ca"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField 'String', 'WEATHER_BASE_URL', '"https://api.openweathermap.org"'
+            buildConfigField 'String', 'WEATHER_API_KEY', '"351ab5c2ef3ce4269f321d39214aa5ca"'
         }
     }
     compileOptions {
@@ -37,10 +42,14 @@ android {
         jvmTarget = '1.8'
     }
 
-    dataBinding {
-        enabled true
+    buildFeatures {
+        dataBinding true
     }
 }
+
+//repositories {
+//    jcenter()
+//}
 
 dependencies {
 
@@ -56,6 +65,20 @@ dependencies {
     implementation "com.airbnb.android:epoxy:$epoxy_version"
     implementation "com.airbnb.android:epoxy-databinding:$epoxy_version"
     kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-core-ext:$koin_version"
+    testImplementation "androidx.room:room-testing:$room_version"
     testImplementation 'junit:junit:4.+'
     androidTestImplementation "androidx.test.ext:junit:$junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
