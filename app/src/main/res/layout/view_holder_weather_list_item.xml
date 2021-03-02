@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="weather"
+            type="com.exam.weather_forecast.data.domain.Weather"/>
+
+        <variable
+            name="color"
+            type="int" />
+
+        <variable
+            name="itemOnPress"
+            type="com.exam.weather_forecast.ui.main.MainFragment.WeatherListItemOnPressListener" />
+
+        <variable
+            name="favoriteOnPress"
+            type="com.exam.weather_forecast.ui.main.MainFragment.WeatherFavoriteOnPressListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@{color}"
+        android:background="@drawable/rounded_shape"
+        android:layout_margin="10dp"
+        android:onClick="@{(v) -> itemOnPress.onPress(v)}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/weather_temp"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="WEATHER_TEMP"
+            android:text="@{weather.temp+``}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/weather_city"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/weather_temp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/weather_temp"
+            app:layout_constraintTop_toBottomOf="@id/weather_temp"
+            app:layout_constraintVertical_bias="0.609"
+            android:layout_marginVertical="8dp"
+            tools:text="WEATHER_CITY"
+            android:text="@{weather.city}"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/weather_status"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toEndOf="@id/weather_city"
+            app:layout_constraintTop_toTopOf="@id/weather_city"
+            app:layout_constraintBottom_toBottomOf="@id/weather_city"
+            app:layout_constraintVertical_bias="0.23"
+            tools:text="WEATHER_STATUS"
+            android:text="@{weather.status}"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/weather_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_favorite_selector"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/weather_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintStart_toEndOf="@id/weather_status"
+            app:layout_constraintTop_toBottomOf="@id/weather_temp"
+            android:onClick="@{(view) -> favoriteOnPress.onPress(view)}"
+            app:selected="@{weather.favorite}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

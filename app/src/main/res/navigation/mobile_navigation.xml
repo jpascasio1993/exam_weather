@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.exam.weather_forecast.ui.main.MainFragment"
+        android:label="@string/home"
+        tools:layout="@layout/main_fragment">
+        <action
+            android:id="@+id/action_nav_home_to_nav_details"
+            app:destination="@id/nav_details"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        >
+            <argument
+                android:name="id"
+                app:argType="integer"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_details"
+        android:name="com.exam.weather_forecast.ui.details.DetailsFragment"
+        android:label="@string/details"
+        tools:layout="@layout/details_fragment">
+        <argument
+            android:name="id"
+            app:argType="integer"/>
+    </fragment>
+</navigation>
