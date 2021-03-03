@@ -45,6 +45,10 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 //repositories {
@@ -81,5 +85,14 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
     testImplementation 'junit:junit:4.+'
     androidTestImplementation "androidx.test.ext:junit:$junit_version"
+    testImplementation "androidx.test.ext:junit-ktx:$junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    testImplementation "androidx.test:core:$test_core_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    testImplementation "com.android.support.test:rules:1.0.2"
+    testImplementation "com.android.support.test:runner:1.0.2"
+    testImplementation 'org.robolectric:robolectric:4.4'
 }

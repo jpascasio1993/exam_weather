@@ -11,7 +11,6 @@ interface WeatherDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeathers(weathers: List<LocalWeatherDTO>)
 
-    // @Query("UPDATE weathers SET fav=:isFavorite WHERE id =:id")
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun setFavorite(favoriteWeather: FavoritesDTO)
 
@@ -20,11 +19,9 @@ interface WeatherDAO {
 
     suspend fun removeFavorite(favoriteWeather: FavoritesDTO) = removeFavorite(favoriteWeather.weatherId)
 
-    // @Query("SELECT * from weathers")
     @Query("SELECT weathers.id, weathers.city, weathers.status, weathers.temp_min, weathers.temp_max, weathers.`temp`, (CASE WHEN favs.weatherId IS NULL THEN 0 ELSE 1 END) as fav from weathers left join (SELECT * from favorites) as favs on favs.weatherId = weathers.id")
     fun getWeathers(): LiveData<List<LocalWeatherDTO>>
 
-    // @Query("SELECT * from weathers where id =:id")
     @Query("SELECT weathers.id, weathers.city, weathers.status, weathers.temp_min, weathers.temp_max, weathers.`temp`, (CASE WHEN favs.weatherId IS NULL THEN 0 ELSE 1 END) as fav from weathers left join (SELECT * from favorites) as favs on favs.weatherId = weathers.id where weathers.id =:id")
     fun getWeather(id: Int): LiveData<LocalWeatherDTO>
 

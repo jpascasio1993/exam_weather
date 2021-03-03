@@ -105,27 +105,7 @@ class WeatherRepositoryImpl(private val weatherDAO: WeatherDAO, private val weat
             } else {
                 weatherDAO.removeFavorite(FavoritesDTO(weatherId = id))
             }
-            getWeatherRemote(id).let{
-                when(it) {
-                    is Result.Success<Weather> -> {
-                        weatherDAO.insertWeathers(listOf(
-                            LocalWeatherDTO(
-                                id = it.data.id,
-                                city = it.data.city,
-                                status = it.data.status,
-                                tempMin = it.data.tempMin,
-                                tempMax = it.data.tempMax,
-                                temp = it.data.temp,
-                                favorite = it.data.favorite
-                            )
-                        ))
-                        Result.Success(Unit)
-                    }
-                    else -> {
-                        Result.Error((it as Result.Error).exception)
-                    }
-                }
-            }
+            Result.Success(Unit)
         }catch(e: Exception) {
             Result.Error(IOException(e.message, e))
         }

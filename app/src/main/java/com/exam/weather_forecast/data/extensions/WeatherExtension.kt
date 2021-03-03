@@ -1,4 +1,4 @@
-package com.exam.weather_forecast.data
+package com.exam.weather_forecast.data.extensions
 
 import android.content.Context
 import androidx.core.content.ContextCompat
@@ -11,8 +11,4 @@ fun Float.tempColor(context: Context): Int {
         in 15F..30F -> ContextCompat.getColor(context, R.color.warm)
         else -> ContextCompat.getColor(context, R.color.hot)
     }
-}
-
-fun Float.roundTo(decimalPlaces: Int): Float {
-    return "%.${decimalPlaces}f".format(this).toFloat()
 }

@@ -11,7 +11,7 @@ import com.airbnb.epoxy.EpoxyRecyclerView
 import com.exam.weather_forecast.R
 import com.exam.weather_forecast.data.domain.Result
 import com.exam.weather_forecast.data.dummy.SampleData
-import com.exam.weather_forecast.data.tempColor
+import com.exam.weather_forecast.data.extensions.tempColor
 import com.exam.weather_forecast.ui.WeatherFavoriteOnPressListener
 import com.exam.weather_forecast.weatherListItem
 import com.google.android.material.snackbar.Snackbar

@@ -57,7 +57,9 @@ class DetailsFragment: Fragment() {
                     )
                         .show()
                 }
-                else -> {}
+                else -> {
+
+                }
             }
         })
 
