@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="weather"
             type="com.exam.weather_forecast.data.domain.Weather"/>
@@ -89,7 +90,8 @@
             app:layout_constraintStart_toEndOf="@id/weather_status"
             app:layout_constraintTop_toBottomOf="@id/weather_temp"
             android:onClick="@{(view) -> favoriteOnPress.onPress(view)}"
-            app:selected="@{weather.favorite}"/>
+            app:selected="@{weather.favorite}"
+            android:visibility="@{weather.favorite ? View.VISIBLE : View.INVISIBLE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
