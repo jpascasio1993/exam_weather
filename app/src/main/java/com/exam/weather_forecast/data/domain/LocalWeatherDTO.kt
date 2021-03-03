@@ -1,8 +1,6 @@
 package com.exam.weather_forecast.data.domain
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "weathers")
 data class LocalWeatherDTO(

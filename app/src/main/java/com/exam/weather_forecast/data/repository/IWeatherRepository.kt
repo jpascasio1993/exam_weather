@@ -6,6 +6,7 @@ import com.exam.weather_forecast.data.domain.Weather
 
 interface IWeatherRepository {
     fun getWeathers(): LiveData<List<Weather>>
+    suspend fun getWeatherRemote(id: Int): Result<Weather>
     fun getWeather(id: Int): LiveData<Weather>
     suspend fun updateLocalWeathers(ids: List<Int>): Result<Unit>
     suspend fun setFavorite(id: Int, isFavorite: Boolean): Result<Unit>

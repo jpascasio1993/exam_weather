@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.exam.weather_forecast.data.database.dao.WeatherDAO
+import com.exam.weather_forecast.data.domain.FavoritesDTO
 import com.exam.weather_forecast.data.domain.LocalWeatherDTO
 
 @Database(
-    entities = [LocalWeatherDTO::class],
+    entities = [LocalWeatherDTO::class, FavoritesDTO::class],
     version = 1
 )
 abstract class AppDatabase: RoomDatabase() {

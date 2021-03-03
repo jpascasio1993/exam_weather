@@ -1,7 +1,6 @@
 package com.exam.weather_forecast.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +39,7 @@ class MainFragment : Fragment() {
             setOnRefreshListener {
                 viewModel.updateLocalWeathers(SampleData.cityIds)
             }
+            viewModel.updateLocalWeathers(SampleData.cityIds)
         }
 
         viewModel.getWeathers().observe(viewLifecycleOwner, {
@@ -56,7 +56,6 @@ class MainFragment : Fragment() {
                         })
                         favoriteOnPress(object : WeatherFavoriteOnPressListener {
                             override fun onPress(view: View) {
-                                Log.i("details", "onPress: ")
                                 viewModel.setFavorite(weather.id, !weather.favorite)
                             }
                         })
